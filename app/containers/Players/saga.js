@@ -31,6 +31,7 @@ export function* doCreatePlayer() {
   try {
     const response = yield call(request, requestURL, options);
     yield put(createPlayerSuccess(response));
+    yield doGetPlayers();
   } catch (err) {
     yield put(createPlayerFailure(err.response));
   }
@@ -64,6 +65,7 @@ export function* doDeletePlayer() {
   try {
     const response = yield call(request, url, options);
     yield put(deletePlayerSuccess(response));
+    yield doGetPlayers();
   } catch (err) {
     yield put(deletePlayerFailure(err.response));
   }
