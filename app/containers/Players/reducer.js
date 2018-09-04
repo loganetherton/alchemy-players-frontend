@@ -59,17 +59,18 @@ function homeReducer(state = initialState, action) {
      * API responses
      */
     case GET_PLAYERS_SUCCESS:
-      return state.set('players', fromJS(action.response.players));
+      return state.set('players', fromJS(action.response.players)).setIn(['errors', 'get'], '');
     case GET_PLAYERS_FAILURE:
       return state.setIn(['errors', 'get'], action.error.statusText);
     case CREATE_PLAYER_SUCCESS:
-      return state.set('newPlayer', fromJS(newPlayerForm));
+      return state.set('newPlayer', fromJS(newPlayerForm)).set('newPlayer', fromJS(newPlayerForm))
+      .setIn(['errors', 'create'], '');
     case CREATE_PLAYER_FAILURE:
       return state.setIn(['errors', 'create'], action.error.statusText);
     case DELETE_PLAYER:
       return state.set('id', action.id);
     case DELETE_PLAYER_SUCCESS:
-      return state;
+      return state.setIn(['errors', 'delete'], '');
     case DELETE_PLAYER_FAILURE:
       return state.setIn(['errors', 'delete'], action.error.statusText);
     case RESET_PLAYER_FORM:

@@ -121,10 +121,18 @@ export class Players extends React.PureComponent {
   }
 
   render() {
-    const { firstName, lastName, rating, players, onChangeFirstName, onChangeLastName, onChangeRating,
+    const { players, onChangeFirstName, onChangeLastName, onChangeRating,
             onChangeHandedness, onSubmitForm } = this.props;
 
     let component = '';
+
+    const newPlayer = players.newPlayer;
+
+    console.log('**************PLAYER**********');
+    console.log(players);
+    console.log(newPlayer.first_name);
+    console.log(newPlayer.last_name);
+    console.log(newPlayer.rating);
 
     // Redirect after user created
     if (!localStorage.getItem('token')) {
@@ -150,7 +158,7 @@ export class Players extends React.PureComponent {
                       id="first_name"
                       type="text"
                       placeholder="First Name"
-                      value={firstName}
+                      value={newPlayer.first_name}
                       onChange={onChangeFirstName}
                     />
                   </label>
@@ -162,7 +170,7 @@ export class Players extends React.PureComponent {
                       id="last_name"
                       type="text"
                       placeholder="Last Name"
-                      value={lastName}
+                      value={newPlayer.last_name}
                       onChange={onChangeLastName}
                     />
                   </label>
@@ -174,7 +182,7 @@ export class Players extends React.PureComponent {
                       id="rating"
                       type="text"
                       placeholder="Rating"
-                      value={rating}
+                      value={newPlayer.rating}
                       onChange={onChangeRating}
                     />
                   </label>
@@ -187,6 +195,7 @@ export class Players extends React.PureComponent {
                       onToggle={onChangeHandedness}
                       values={handednessOptions}
                       messages={handednessMessages}
+                      value={newPlayer.handedness}
                     />
                   </label>
                 </p>

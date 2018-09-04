@@ -50,7 +50,7 @@ export class Login extends React.PureComponent {
   loginError() {
     const loginError = this.props.login.loginError;
     if (loginError) {
-      return <p style={errorStyle}>Login Failed: {loginError}</p>;
+      return <span style={errorStyle}>Login Failed: {loginError}</span>;
     }
     return <span/>;
   }
@@ -63,7 +63,7 @@ export class Login extends React.PureComponent {
   inputError(type) {
     const errors = this.props.login.inputErrors;
     if (errors[type]) {
-      return <p style={errorStyle}>{errors[type]}</p>;
+      return <span style={errorStyle}>{errors[type]}</span>;
     }
     return <span/>;
   }
