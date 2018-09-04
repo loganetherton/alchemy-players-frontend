@@ -1,0 +1,14 @@
+export const GET_PLAYERS = 'playerApp/Players/GET_PLAYERS';
+export const GET_PLAYERS_SUCCESS = 'playerApp/Players/GET_PLAYERS_SUCCESS';
+export const GET_PLAYERS_FAILURE = 'playerApp/Players/GET_PLAYERS_FAILURE';
+export const CHANGE_FIRST_NAME = 'playerApp/Players/CHANGE_FIRST_NAME';
+export const CHANGE_LAST_NAME = 'playerApp/Players/CHANGE_LAST_NAME';
+export const CHANGE_RATING = 'playerApp/Players/CHANGE_RATING';
+export const CHANGE_HANDEDNESS = 'playerApp/Players/CHANGE_HANDEDNESS';
+export const CREATE_PLAYER = 'playerApp/Players/CREATE_PLAYER';
+export const CREATE_PLAYER_SUCCESS = 'playerApp/Players/CREATE_PLAYER_SUCCESS';
+export const CREATE_PLAYER_FAILURE = 'playerApp/Players/CREATE_PLAYER_FAILURE';
+export const DELETE_PLAYER = 'playerApp/Players/DELETE_PLAYER';
+export const DELETE_PLAYER_SUCCESS = 'playerApp/Players/DELETE_PLAYER_SUCCESS';
+export const DELETE_PLAYER_FAILURE = 'playerApp/Players/DELETE_PLAYER_FAILURE';
+export const RESET_PLAYER_FORM = 'playerApp/Players/RESET_PLAYER_FORM';
