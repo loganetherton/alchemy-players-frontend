@@ -47,6 +47,7 @@ const handednessMessages = {
 };
 
 const errorStyle = {color: 'red'};
+const enterKey = 13;
 
 /* eslint-disable react/prefer-stateless-function */
 export class Players extends React.PureComponent {
@@ -54,11 +55,23 @@ export class Players extends React.PureComponent {
   componentDidMount() {
     this.props.onGetPlayers();
     this.props.onResetPage();
+
+    this.submitOnEnter = this.submitOnEnter.bind(this);
   }
 
   // Remove data when leaving the page
   componentWillUnmount() {
     this.props.onResetPage();
+  }
+
+  /**
+   * Submit on enter
+   * @param e
+   */
+  submitOnEnter(e) {
+    if (e.which === enterKey) {
+      this.props.onSubmitForm();
+    }
   }
 
   /**
@@ -128,12 +141,6 @@ export class Players extends React.PureComponent {
 
     const newPlayer = players.newPlayer;
 
-    console.log('**************PLAYER**********');
-    console.log(players);
-    console.log(newPlayer.first_name);
-    console.log(newPlayer.last_name);
-    console.log(newPlayer.rating);
-
     // Redirect after user created
     if (!localStorage.getItem('token')) {
       component = <Redirect to='/' />;
@@ -160,6 +167,7 @@ export class Players extends React.PureComponent {
                       placeholder="First Name"
                       value={newPlayer.first_name}
                       onChange={onChangeFirstName}
+                      onKeyPress={this.submitOnEnter}
                     />
                   </label>
                 </p>
@@ -172,6 +180,7 @@ export class Players extends React.PureComponent {
                       placeholder="Last Name"
                       value={newPlayer.last_name}
                       onChange={onChangeLastName}
+                      onKeyPress={this.submitOnEnter}
                     />
                   </label>
                 </p>
@@ -184,6 +193,7 @@ export class Players extends React.PureComponent {
                       placeholder="Rating"
                       value={newPlayer.rating}
                       onChange={onChangeRating}
+                      onKeyPress={this.submitOnEnter}
                     />
                   </label>
                   {this.inputError('rating')}

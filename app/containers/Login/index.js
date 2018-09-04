@@ -30,12 +30,15 @@ import saga from './saga';
 import { makeSelectLogin } from './selectors';
 
 const errorStyle = {color: 'red'};
+const enterKey = 13;
 
 /* eslint-disable react/prefer-stateless-function */
 export class Login extends React.PureComponent {
   // Remove page data
   componentDidMount() {
     this.props.onResetPage();
+
+    this.submitOnEnter = this.submitOnEnter.bind(this);
   }
 
   // Remove data when leaving the page
@@ -85,6 +88,16 @@ export class Login extends React.PureComponent {
     return !!(inputErrors.email || inputErrors.password);
   }
 
+  /**
+   * Submit on enter
+   * @param e
+   */
+  submitOnEnter(e) {
+    if (e.which === enterKey) {
+      this.props.onSubmitForm();
+    }
+  }
+
   render() {
     const { email, password, login, onChangeEmail, onChangePassword, onSubmitForm } = this.props;
 
@@ -94,6 +107,11 @@ export class Login extends React.PureComponent {
     if (login.loginSuccess) {
       component = <Redirect to='/players' />;
     } else {
+      // For logout
+      if (localStorage.getItem('token')) {
+        localStorage.removeItem('token');
+        localStorage.removeItem('userId');
+      }
       component = (
         <article>
           <div>
@@ -116,6 +134,7 @@ export class Login extends React.PureComponent {
                       placeholder="Email"
                       value={email}
                       onChange={onChangeEmail}
+                      onKeyPress={this.submitOnEnter}
                     />
                   </label>
                   {this.emailInputError()}
@@ -129,6 +148,7 @@ export class Login extends React.PureComponent {
                       placeholder="Password"
                       value={password}
                       onChange={onChangePassword}
+                      onKeyPress={this.submitOnEnter}
                     />
                   </label>
                   {this.passwordInputError()}

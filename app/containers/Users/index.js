@@ -33,17 +33,30 @@ import saga from './saga';
 import { makeSelectUser } from './selectors';
 
 const errorStyle = {color: 'red'};
+const enterKey = 13;
 
 /* eslint-disable react/prefer-stateless-function */
 export class Users extends React.PureComponent {
   // Remove user created on load so we can come back here
   componentDidMount() {
     this.props.onResetPage();
+
+    this.submitOnEnter = this.submitOnEnter.bind(this);
   }
 
   // Remove data when leaving the page
   componentWillUnmount() {
     this.props.onResetPage();
+  }
+
+  /**
+   * Submit on enter
+   * @param e
+   */
+  submitOnEnter(e) {
+    if (e.which === enterKey) {
+      this.props.onSubmitForm();
+    }
   }
 
   /**
@@ -114,6 +127,7 @@ export class Users extends React.PureComponent {
                       placeholder="First Name"
                       value={firstName}
                       onChange={onChangeFirstName}
+                      onKeyPress={this.submitOnEnter}
                     />
                   </label>
                   {this.inputError('first_name')}
@@ -127,6 +141,7 @@ export class Users extends React.PureComponent {
                       placeholder="Last Name"
                       value={lastName}
                       onChange={onChangeLastName}
+                      onKeyPress={this.submitOnEnter}
                     />
                   </label>
                   {this.inputError('last_name')}
@@ -140,6 +155,7 @@ export class Users extends React.PureComponent {
                       placeholder="Email"
                       value={email}
                       onChange={onChangeEmail}
+                      onKeyPress={this.submitOnEnter}
                     />
                   </label>
                   {this.inputError('email')}
@@ -153,6 +169,7 @@ export class Users extends React.PureComponent {
                       placeholder="Password"
                       value={password}
                       onChange={onChangePassword}
+                      onKeyPress={this.submitOnEnter}
                     />
                   </label>
                   {this.inputError('password')}
@@ -166,6 +183,7 @@ export class Users extends React.PureComponent {
                       placeholder="Confirm Password"
                       value={confirmPassword}
                       onChange={onChangeConfirmPassword}
+                      onKeyPress={this.submitOnEnter}
                     />
                   </label>
                   {this.inputError('confirm_password')}
