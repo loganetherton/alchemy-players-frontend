@@ -29,6 +29,8 @@ import reducer from './reducer';
 import saga from './saga';
 import { makeSelectLogin } from './selectors';
 
+const errorStyle = {color: 'red'};
+
 /* eslint-disable react/prefer-stateless-function */
 export class Login extends React.PureComponent {
   // Remove page data
@@ -48,9 +50,39 @@ export class Login extends React.PureComponent {
   loginError() {
     const loginError = this.props.login.loginError;
     if (loginError) {
-      return <p>Login Failed: {loginError}</p>;
+      return <p style={errorStyle}>Login Failed: {loginError}</p>;
     }
     return <span/>;
+  }
+
+  /**
+   * Display input validation errors
+   * @param type
+   * @returns {*}
+   */
+  inputError(type) {
+    const errors = this.props.login.inputErrors;
+    if (errors[type]) {
+      return <p style={errorStyle}>{errors[type]}</p>;
+    }
+    return <span/>;
+  }
+
+  emailInputError() {
+    return this.inputError('email');
+  }
+
+  passwordInputError() {
+    return this.inputError('password');
+  }
+
+  /**
+   * Disable login until validation passes
+   * @returns {boolean}
+   */
+  loginDisabled() {
+    const inputErrors = this.props.login.inputErrors;
+    return !!(inputErrors.email || inputErrors.password);
   }
 
   render() {
@@ -86,6 +118,7 @@ export class Login extends React.PureComponent {
                       onChange={onChangeEmail}
                     />
                   </label>
+                  {this.emailInputError()}
                 </p>
                 <p>
                   <label htmlFor="password">
@@ -98,8 +131,9 @@ export class Login extends React.PureComponent {
                       onChange={onChangePassword}
                     />
                   </label>
+                  {this.passwordInputError()}
                 </p>
-                <Button onClick={onSubmitForm}>Login</Button>
+                <Button onClick={onSubmitForm} disabled={this.loginDisabled()}>Login</Button>
                 {this.loginError()}
               </Form>
             </Section>

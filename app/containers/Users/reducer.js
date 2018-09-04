@@ -29,11 +29,20 @@ const initialStateParams = {
   password: '',
   confirm_password: '',
   userCreated: false,
-  userCreationError: null
+  userCreationError: null,
+  inputErrors: {
+    first_name: '',
+    last_name: '',
+    email: '',
+    password: '',
+    confirm_password: ''
+  }
 };
 
 // The initial state of the App
 export const initialState = fromJS(initialStateParams);
+
+const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
 function homeReducer(state = initialState, action) {
   switch (action.type) {
@@ -42,11 +51,15 @@ function homeReducer(state = initialState, action) {
     case CHANGE_LAST_NAME:
       return state.set('last_name', action.lastName.trim());
     case CHANGE_EMAIL:
-      return state.set('email', action.email.trim());
+      const validEmail = emailRegex.test(action.email);
+      return state.set('email', action.email.trim())
+      .setIn(['inputErrors', 'email'], validEmail ? '' : 'Invalid email');
     case CHANGE_PASSWORD:
       return state.set('password', action.password.trim());
     case CHANGE_CONFIRM_PASSWORD:
-      return state.set('confirm_password', action.confirmPassword.trim());
+      const invalidConfirm = state.get('password') !== action.confirmPassword;
+      return state.set('confirm_password', action.confirmPassword.trim())
+      .setIn(['inputErrors', 'confirm_password'], invalidConfirm ? 'Passwords do not match' : '');
     case USER_CREATED:
       localStorage.setItem('token', action.response.token);
       localStorage.setItem('userId', action.response.user.id);

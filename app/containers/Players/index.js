@@ -46,6 +46,8 @@ const handednessMessages = {
   right: 'Right'
 };
 
+const errorStyle = {color: 'red'};
+
 /* eslint-disable react/prefer-stateless-function */
 export class Players extends React.PureComponent {
   // // Remove page data
@@ -60,16 +62,38 @@ export class Players extends React.PureComponent {
   }
 
   /**
-   * Generic error others extend
+   * Generic error extend API errors
    * @param type
    * @returns {*}
    */
   genericError(type) {
     const errors = this.props.players.errors;
     if (errors[type]) {
-      return <p>Failed to {type}: {errors[type]}</p>;
+      return <span style={errorStyle}>Failed to {type}: {errors[type]}</span>;
     }
     return <span/>;
+  }
+
+  /**
+   * Input validation error
+   * @param type
+   * @returns {*}
+   */
+  inputError(type) {
+    const errors = this.props.players.inputErrors;
+    if (errors[type]) {
+      return <span style={errorStyle}>{errors[type]}</span>;
+    }
+    return <span/>;
+  }
+
+  /**
+   * Disable submit until validation passes
+   * @returns {boolean}
+   */
+  disableSubmit() {
+    const errors = this.props.players.inputErrors;
+    return !!(errors.first_name || errors.last_name || errors.rating);
   }
 
   /**
@@ -154,6 +178,7 @@ export class Players extends React.PureComponent {
                       onChange={onChangeRating}
                     />
                   </label>
+                  {this.inputError('rating')}
                 </p>
                 <p>
                   <label htmlFor="handedness">
@@ -165,7 +190,7 @@ export class Players extends React.PureComponent {
                     />
                   </label>
                 </p>
-                <Button onClick={onSubmitForm}>Create Player</Button>
+                <Button onClick={onSubmitForm} disabled={this.disableSubmit()}>Create Player</Button>
                 {this.createPlayerError()}
               </Form>
             </Section>

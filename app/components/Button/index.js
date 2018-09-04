@@ -16,7 +16,7 @@ import Wrapper from './Wrapper';
 function Button(props) {
   // Render an anchor tag
   let button = (
-    <A href={props.href} onClick={props.onClick}>
+    <A href={props.href} onClick={!props.disabled ? props.onClick : () => {}}>
       {Children.toArray(props.children)}
     </A>
   );
@@ -38,7 +38,7 @@ Button.propTypes = {
   href: PropTypes.string,
   onClick: PropTypes.func,
   children: PropTypes.node.isRequired,
-  isClickable: PropTypes.func
+  disabled: PropTypes.bool,
 };
 
 export default Button;

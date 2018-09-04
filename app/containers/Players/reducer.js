@@ -30,6 +30,11 @@ const initialStateParams = {
     get: null,
     create: null,
     delete: null
+  },
+  inputErrors: {
+    first_name: '',
+    last_name: '',
+    rating: ''
   }
 };
 
@@ -46,7 +51,8 @@ function homeReducer(state = initialState, action) {
     case CHANGE_LAST_NAME:
       return state.setIn(['newPlayer', 'last_name'], action.lastName);
     case CHANGE_RATING:
-      return state.setIn(['newPlayer', 'rating'], action.rating);
+      const valid = /[0-9]+/.test(action.rating);
+      return state.setIn(['newPlayer', 'rating'], action.rating).setIn(['inputErrors', 'rating'], valid ? '' : 'Rating must be numeric');
     case CHANGE_HANDEDNESS:
       return state.setIn(['newPlayer', 'handedness'], action.handedness);
     /**

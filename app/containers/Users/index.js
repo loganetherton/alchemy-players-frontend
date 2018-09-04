@@ -32,6 +32,8 @@ import reducer from './reducer';
 import saga from './saga';
 import { makeSelectUser } from './selectors';
 
+const errorStyle = {color: 'red'};
+
 /* eslint-disable react/prefer-stateless-function */
 export class Users extends React.PureComponent {
   // Remove user created on load so we can come back here
@@ -44,12 +46,38 @@ export class Users extends React.PureComponent {
     this.props.onResetPage();
   }
 
+  /**
+   * Error creating user
+   * @returns {*}
+   */
   userCreateError() {
     const error = this.props.user.userCreationError;
     if (error) {
-      return <p>Failed to create user: {error}</p>;
+      return <p style={errorStyle}>Failed to create user: {error}</p>;
     }
     return <span/>;
+  }
+
+  /**
+   * Input has error
+   * @param type
+   * @returns {*}
+   */
+  inputError(type) {
+    const errors = this.props.user.inputErrors;
+    if (errors[type]) {
+      return <span style={errorStyle}>{errors[type]}</span>;
+    }
+    return <span/>;
+  }
+
+  /**
+   * Disable creating user until input validation passes
+   * @returns {boolean}
+   */
+  createDisabled() {
+    const errors = this.props.user.inputErrors;
+    return !!(errors.first_name || errors.last_name || errors.email || errors.password || errors.confirm_password);
   }
 
   render() {
@@ -88,6 +116,7 @@ export class Users extends React.PureComponent {
                       onChange={onChangeFirstName}
                     />
                   </label>
+                  {this.inputError('first_name')}
                 </p>
                 <p>
                   <label htmlFor="lastName">
@@ -100,6 +129,7 @@ export class Users extends React.PureComponent {
                       onChange={onChangeLastName}
                     />
                   </label>
+                  {this.inputError('last_name')}
                 </p>
                 <p>
                   <label htmlFor="email">
@@ -112,6 +142,7 @@ export class Users extends React.PureComponent {
                       onChange={onChangeEmail}
                     />
                   </label>
+                  {this.inputError('email')}
                 </p>
                 <p>
                   <label htmlFor="password">
@@ -124,6 +155,7 @@ export class Users extends React.PureComponent {
                       onChange={onChangePassword}
                     />
                   </label>
+                  {this.inputError('password')}
                 </p>
                 <p>
                   <label htmlFor="confirm_password">
@@ -136,8 +168,9 @@ export class Users extends React.PureComponent {
                       onChange={onChangeConfirmPassword}
                     />
                   </label>
+                  {this.inputError('confirm_password')}
                 </p>
-                <Button onClick={onSubmitForm}>Create User</Button>
+                <Button onClick={onSubmitForm} disabled={this.createDisabled()}>Create User</Button>
                 {this.userCreateError()}
               </Form>
             </Section>
