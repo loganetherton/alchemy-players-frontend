@@ -23,10 +23,10 @@ function Table(props) {
       {props.players.map(player => {
         return (
           <Tr key={player.id}>
-            <Td>{player.first_name}</Td>
-            <Td>{player.last_name}</Td>
+            <Td>{player.first_name.charAt(0).toUpperCase() + player.first_name.slice(1)}</Td>
+            <Td>{player.last_name.charAt(0).toUpperCase() + player.last_name.slice(1)}</Td>
             <Td>{player.rating}</Td>
-            <Td>{player.handedness}</Td>
+            <Td>{player.handedness.charAt(0).toUpperCase() + player.handedness.slice(1)}</Td>
             <Td onClick={props.onClick.bind(this, player.id)}><strong>Delete Player</strong></Td>
           </Tr>
         );
