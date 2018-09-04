@@ -41,6 +41,18 @@ export class Login extends React.PureComponent {
     this.props.onResetPage();
   }
 
+  /**
+   * Handle login errors
+   * @returns {*}
+   */
+  loginError() {
+    const loginError = this.props.login.loginError;
+    if (loginError) {
+      return <p>Login Failed: {loginError}</p>;
+    }
+    return <span/>;
+  }
+
   render() {
     const { email, password, login, onChangeEmail, onChangePassword, onSubmitForm } = this.props;
 
@@ -88,6 +100,7 @@ export class Login extends React.PureComponent {
                   </label>
                 </p>
                 <Button onClick={onSubmitForm}>Login</Button>
+                {this.loginError()}
               </Form>
             </Section>
           </div>

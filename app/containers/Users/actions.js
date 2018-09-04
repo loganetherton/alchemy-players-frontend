@@ -100,7 +100,7 @@ export function userCreated(response) {
 export function userCreationError(error) {
   return {
     type: USER_CREATION_FAILED,
-    userCreatedError: error,
+    error: error,
   };
 }
 

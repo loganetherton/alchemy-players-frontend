@@ -25,9 +25,7 @@ export function* doCreateUser() {
     const response = yield call(request, requestURL, options);
     yield put(userCreated(response));
   } catch (err) {
-    console.log('**************ERR**********');
-    console.log(err);
-    yield put(userCreationError(err));
+    yield put(userCreationError(err.response));
   }
 }
 

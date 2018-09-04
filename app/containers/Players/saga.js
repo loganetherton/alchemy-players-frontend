@@ -32,9 +32,7 @@ export function* doCreatePlayer() {
     const response = yield call(request, requestURL, options);
     yield put(createPlayerSuccess(response));
   } catch (err) {
-    console.log('**************ERR**********');
-    console.log(err);
-    yield put(createPlayerFailure(err));
+    yield put(createPlayerFailure(err.response));
   }
 }
 
@@ -49,9 +47,7 @@ export function* doGetPlayers() {
     const response = yield call(request, requestURL, options);
     yield put(getPlayersSuccess(response));
   } catch (err) {
-    console.log('**************ERR**********');
-    console.log(err);
-    yield put(getPlayersFailure(err));
+    yield put(getPlayersFailure(err.response));
   }
 }
 
@@ -61,8 +57,6 @@ export function* doGetPlayers() {
  */
 export function* doDeletePlayer() {
   const playerId = yield select(makeSelectPlayerId());
-  console.log('**************PLAYER ID 2**********');
-  console.log(playerId);
   const options = {method: 'DELETE', headers: {'Authorization': `Bearer ${localStorage.getItem('token')}`}};
 
   const url = requestURL + `/${playerId}`;
@@ -71,9 +65,7 @@ export function* doDeletePlayer() {
     const response = yield call(request, url, options);
     yield put(deletePlayerSuccess(response));
   } catch (err) {
-    console.log('**************ERR**********');
-    console.log(err);
-    yield put(deletePlayerFailure(err));
+    yield put(deletePlayerFailure(err.response));
   }
 }
 

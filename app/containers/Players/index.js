@@ -59,15 +59,52 @@ export class Players extends React.PureComponent {
     this.props.onResetPage();
   }
 
+  /**
+   * Generic error others extend
+   * @param type
+   * @returns {*}
+   */
+  genericError(type) {
+    const errors = this.props.players.errors;
+    if (errors[type]) {
+      return <p>Failed to {type}: {errors[type]}</p>;
+    }
+    return <span/>;
+  }
+
+  /**
+   * Failed to create player
+   * @returns {*}
+   */
+  createPlayerError() {
+    return this.genericError('create');
+  }
+
+  /**
+   * Failed to retrieve players
+   * @returns {*}
+   */
+  getPlayersError() {
+    return this.genericError('get');
+  }
+
+  /**
+   * Failed to delete players
+   * @returns {*}
+   */
+  deletePlayerError() {
+    return this.genericError('delete');
+  }
+
   render() {
-    const { firstName, lastName, rating, handedness, players, onChangeFirstName, onChangeLastName, onChangeRating,
+    const { firstName, lastName, rating, players, onChangeFirstName, onChangeLastName, onChangeRating,
             onChangeHandedness, onSubmitForm } = this.props;
 
     let component = '';
 
     // Redirect after user created
     if (!localStorage.getItem('token')) {
-      component = <Redirect to='/login' />;
+      component = <Redirect to='/' />;
     } else {
       component = (
         <article>
@@ -129,12 +166,15 @@ export class Players extends React.PureComponent {
                   </label>
                 </p>
                 <Button onClick={onSubmitForm}>Create Player</Button>
+                {this.createPlayerError()}
               </Form>
             </Section>
             <CenteredSection>
               <H1>Current Players</H1>
             </CenteredSection>
             <Section>
+              {this.getPlayersError()}
+              {this.deletePlayerError()}
               <PlayersTable
                 players={players.players}
                 onClick={this.props.onDeletePlayer}

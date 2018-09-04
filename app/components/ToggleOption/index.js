@@ -6,7 +6,6 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { injectIntl } from 'react-intl';
 
 const ToggleOption = ({ value, message }) => (
   <option value={value}>{message ? message : value}</option>
@@ -17,4 +16,4 @@ ToggleOption.propTypes = {
   message: PropTypes.string,
 };
 
-export default injectIntl(ToggleOption);
+export default ToggleOption;

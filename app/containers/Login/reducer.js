@@ -30,7 +30,7 @@ function homeReducer(state = initialState, action) {
       localStorage.setItem('userId', action.response.user.id);
       return state.set('loginSuccess', true);
     case LOGIN_FAILED:
-      return state;
+      return state.set('loginError', action.error.statusText);
     case RESET_LOGIN:
       return state.merge(initialStateParams);
     default:

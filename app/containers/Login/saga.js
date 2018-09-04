@@ -25,9 +25,7 @@ export function* doLogin() {
     const response = yield call(request, requestURL, options);
     yield put(loginSuccess(response));
   } catch (err) {
-    console.log('**************ERR**********');
-    console.log(err);
-    yield put(loginFailed(err));
+    yield put(loginFailed(err.response));
   }
 }
 

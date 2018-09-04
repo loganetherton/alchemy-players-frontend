@@ -52,9 +52,8 @@ function homeReducer(state = initialState, action) {
       localStorage.setItem('userId', action.response.user.id);
       return state.set('userCreated', true);
     case USER_CREATION_FAILED:
-      return state.set('userCreationError', action.userCreatedError);
+      return state.set('userCreationError', action.error.statusText);
     case RESET_USER_CREATION:
-      console.log('**************RESET**********');
       return state.merge(initialStateParams);
     default:
       return state;

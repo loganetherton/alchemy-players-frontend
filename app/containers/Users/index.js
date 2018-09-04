@@ -44,6 +44,14 @@ export class Users extends React.PureComponent {
     this.props.onResetPage();
   }
 
+  userCreateError() {
+    const error = this.props.user.userCreationError;
+    if (error) {
+      return <p>Failed to create user: {error}</p>;
+    }
+    return <span/>;
+  }
+
   render() {
     const { onSubmitForm, onChangeFirstName, onChangeLastName, onChangeEmail, onChangePassword, onChangeConfirmPassword, firstName, lastName, email, password, confirmPassword, user } = this.props;
 
@@ -51,7 +59,7 @@ export class Users extends React.PureComponent {
 
     // Redirect after user created
     if (user.userCreated) {
-      component = <Redirect to='/login' />;
+      component = <Redirect to='/' />;
     } else {
       component = (
         <article>
@@ -130,6 +138,7 @@ export class Users extends React.PureComponent {
                   </label>
                 </p>
                 <Button onClick={onSubmitForm}>Create User</Button>
+                {this.userCreateError()}
               </Form>
             </Section>
           </div>

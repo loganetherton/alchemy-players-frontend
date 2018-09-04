@@ -25,7 +25,12 @@ const newPlayerForm = {
 const initialStateParams = {
   players: [],
   newPlayer: newPlayerForm,
-  id: null
+  id: null,
+  errors: {
+    get: null,
+    create: null,
+    delete: null
+  }
 };
 
 // The initial state of the App
@@ -50,17 +55,17 @@ function homeReducer(state = initialState, action) {
     case GET_PLAYERS_SUCCESS:
       return state.set('players', fromJS(action.response.players));
     case GET_PLAYERS_FAILURE:
-      return state;
+      return state.setIn(['errors', 'get'], action.error.statusText);
     case CREATE_PLAYER_SUCCESS:
       return state.set('newPlayer', fromJS(newPlayerForm));
     case CREATE_PLAYER_FAILURE:
-      return state;
+      return state.setIn(['errors', 'create'], action.error.statusText);
     case DELETE_PLAYER:
       return state.set('id', action.id);
     case DELETE_PLAYER_SUCCESS:
       return state;
     case DELETE_PLAYER_FAILURE:
-      return state;
+      return state.setIn(['errors', 'delete'], action.error.statusText);
     case RESET_PLAYER_FORM:
       return state.merge(initialStateParams);
     default:
