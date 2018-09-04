@@ -49,8 +49,6 @@ export default function request(url, options) {
       'Content-Type': 'application/json'
     });
   }
-  console.log('**************OPTIONS**********');
-  console.log(options);
   return fetch(url, options)
     .then(checkStatus)
     .then(parseJSON);
