@@ -1,27 +1,27 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 
-import AtPrefix from '../AtPrefix';
+import CenteredSection from '../CenteredSection';
 
-describe('<AtPrefix />', () => {
+describe('<CenteredSection />', () => {
   it('should render an <span> tag', () => {
-    const renderedComponent = shallow(<AtPrefix />);
-    expect(renderedComponent.type()).toEqual('span');
+    const renderedComponent = shallow(<CenteredSection />);
+    expect(renderedComponent.type()).toEqual('section');
   });
 
   it('should have a className attribute', () => {
-    const renderedComponent = shallow(<AtPrefix />);
+    const renderedComponent = shallow(<CenteredSection />);
     expect(renderedComponent.prop('className')).toBeDefined();
   });
 
   it('should adopt a valid attribute', () => {
     const id = 'test';
-    const renderedComponent = shallow(<AtPrefix id={id} />);
+    const renderedComponent = shallow(<CenteredSection id={id} />);
     expect(renderedComponent.prop('id')).toEqual(id);
   });
 
   it('should not adopt an invalid attribute', () => {
-    const renderedComponent = shallow(<AtPrefix attribute="test" />);
+    const renderedComponent = shallow(<CenteredSection attribute="test" />);
     expect(renderedComponent.prop('attribute')).toBeUndefined();
   });
 });

@@ -39,6 +39,8 @@ export class Login extends React.PureComponent {
     this.props.onResetPage();
 
     this.submitOnEnter = this.submitOnEnter.bind(this);
+
+    this.inputError = this.inputError.bind(this);
   }
 
   // Remove data when leaving the page
@@ -130,7 +132,7 @@ export class Login extends React.PureComponent {
       component = <Redirect to='/roster' />;
     } else {
       // For logout
-      if (localStorage.getItem('token')) {
+      if (window && window.localStorage && window.localStorage.getItem('token')) {
         localStorage.removeItem('token');
         localStorage.removeItem('userId');
       }
@@ -157,7 +159,7 @@ export class Login extends React.PureComponent {
                   id: 'password',
                   placeholder: 'Password',
                   value: password,
-                  onChange: onChangePassword,
+                  onChange: onChangePassword
                 })}
                 <Button onClick={onSubmitForm} disabled={this.loginDisabled()} id="login">Login</Button>
                 {this.loginError()}

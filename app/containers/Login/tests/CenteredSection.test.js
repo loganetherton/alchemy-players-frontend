@@ -1,10 +1,12 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 
+import H2 from 'components/H2';
+
 import CenteredSection from '../CenteredSection';
 
 describe('<CenteredSection />', () => {
-  it('should render an <section> tag', () => {
+  it('should render an <H2> tag', () => {
     const renderedComponent = shallow(<CenteredSection />);
     expect(renderedComponent.type()).toEqual('section');
   });

@@ -16,9 +16,4 @@ describe('<App />', () => {
     const renderedComponent = shallow(<App />);
     expect(renderedComponent.find(Route).length).not.toBe(0);
   });
-
-  it('should render the footer', () => {
-    const renderedComponent = shallow(<App />);
-    expect(renderedComponent.find(Footer).length).toBe(1);
-  });
 });
