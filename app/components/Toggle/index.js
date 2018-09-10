@@ -21,7 +21,7 @@ function Toggle(props) {
   }
 
   return (
-    <Select value={props.value} onChange={props.onToggle}>
+    <Select value={props.value} onChange={props.onToggle} id={props.id}>
       {content}
     </Select>
   );
@@ -32,6 +32,7 @@ Toggle.propTypes = {
   values: PropTypes.array,
   value: PropTypes.string,
   messages: PropTypes.object,
+  id: PropTypes.string
 };
 
 export default Toggle;

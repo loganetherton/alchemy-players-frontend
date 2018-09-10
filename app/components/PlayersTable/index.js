@@ -27,7 +27,7 @@ function Table(props) {
             <Td>{player.last_name.charAt(0).toUpperCase() + player.last_name.slice(1)}</Td>
             <Td>{player.rating}</Td>
             <Td>{player.handedness.charAt(0).toUpperCase() + player.handedness.slice(1)}</Td>
-            <Td onClick={props.onClick.bind(this, player.id)}><strong>Delete Player</strong></Td>
+            <Td onClick={props.onClick.bind(this, player.id)} className="delete"><strong>Delete Player</strong></Td>
           </Tr>
         );
       })}

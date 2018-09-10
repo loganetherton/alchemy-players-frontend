@@ -133,24 +133,59 @@ export class Players extends React.PureComponent {
     return this.genericError('delete');
   }
 
+  /**
+   * Create an input for the form
+   * @param {Object} attrs
+   * @param {String} attrs.id
+   * @param {String} attrs.type
+   * @param {String} attrs.placeholder
+   * @param {String} attrs.value
+   * @param {*} attrs.onChange
+   * @returns {*}
+   */
+  createInput(attrs) {
+    const {id, type = 'text', placeholder, value, onChange} = attrs;
+    return (
+      <p>
+        <label htmlFor={id}>
+          {attrs.placeholder} &nbsp;
+          <Input
+            id={id}
+            type={type}
+            placeholder={placeholder}
+            value={value}
+            onChange={onChange}
+            onKeyPress={this.submitOnEnter}
+          />
+        </label>
+        {this.inputError(id)}
+      </p>
+    );
+  }
+
   render() {
     const { players, onChangeFirstName, onChangeLastName, onChangeRating,
             onChangeHandedness, onSubmitForm } = this.props;
 
     let component = '';
 
-    const newPlayer = players.newPlayer;
+    const {first_name, last_name, rating, handedness} = players.newPlayer;
+
+    console.log('**************NEW PLAYER**********');
+    console.log(localStorage.getItem('token'));
 
     // Redirect after user created
     if (!localStorage.getItem('token')) {
-      component = <Redirect to='/' />;
+      component = <Redirect to='/login'/>;
+    } else if (players.newPlayerCreated) {
+      component = <Redirect to='/roster'/>;
     } else {
       component = (
         <article>
           <div>
             <CenteredSection>
               <H1>
-                Players
+                Roster
               </H1>
             </CenteredSection>
             <Section>
@@ -158,46 +193,24 @@ export class Players extends React.PureComponent {
                 Create New Player
               </H2>
               <Form>
-                <p>
-                  <label htmlFor="first_name">
-                    First Name &nbsp;
-                    <Input
-                      id="first_name"
-                      type="text"
-                      placeholder="First Name"
-                      value={newPlayer.first_name}
-                      onChange={onChangeFirstName}
-                      onKeyPress={this.submitOnEnter}
-                    />
-                  </label>
-                </p>
-                <p>
-                  <label htmlFor="last_name">
-                    Last Name &nbsp;
-                    <Input
-                      id="last_name"
-                      type="text"
-                      placeholder="Last Name"
-                      value={newPlayer.last_name}
-                      onChange={onChangeLastName}
-                      onKeyPress={this.submitOnEnter}
-                    />
-                  </label>
-                </p>
-                <p>
-                  <label htmlFor="rating">
-                    Rating &nbsp;
-                    <Input
-                      id="rating"
-                      type="text"
-                      placeholder="Rating"
-                      value={newPlayer.rating}
-                      onChange={onChangeRating}
-                      onKeyPress={this.submitOnEnter}
-                    />
-                  </label>
-                  {this.inputError('rating')}
-                </p>
+                {this.createInput({
+                  id: 'firstName',
+                  placeholder: 'First Name',
+                  value: first_name,
+                  onChange: onChangeFirstName
+                })}
+                {this.createInput({
+                  id: 'lastName',
+                  placeholder: 'Last Name',
+                  value: last_name,
+                  onChange: onChangeLastName
+                })}
+                {this.createInput({
+                  id: 'rating',
+                  placeholder: 'Rating',
+                  value: rating,
+                  onChange: onChangeRating
+                })}
                 <p>
                   <label htmlFor="handedness">
                     Handedness &nbsp;
@@ -205,11 +218,12 @@ export class Players extends React.PureComponent {
                       onToggle={onChangeHandedness}
                       values={handednessOptions}
                       messages={handednessMessages}
-                      value={newPlayer.handedness}
+                      value={handedness}
+                      id="handedness"
                     />
                   </label>
                 </p>
-                <Button onClick={onSubmitForm} disabled={this.disableSubmit()}>Create Player</Button>
+                <Button onClick={onSubmitForm} disabled={this.disableSubmit()} id="create">Create Player</Button>
                 {this.createPlayerError()}
               </Form>
             </Section>

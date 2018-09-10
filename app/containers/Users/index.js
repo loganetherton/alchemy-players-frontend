@@ -93,6 +93,36 @@ export class Users extends React.PureComponent {
     return !!(errors.first_name || errors.last_name || errors.email || errors.password || errors.confirm_password);
   }
 
+  /**
+   * Create an input for the form
+   * @param {Object} attrs
+   * @param {String} attrs.id
+   * @param {String} attrs.type
+   * @param {String} attrs.placeholder
+   * @param {String} attrs.value
+   * @param {*} attrs.onChange
+   * @returns {*}
+   */
+  createInput(attrs) {
+    const {id, type = 'text', placeholder, value, onChange} = attrs;
+    return (
+      <p>
+        <label htmlFor={id}>
+          {attrs.placeholder} &nbsp;
+          <Input
+            id={id}
+            type={type}
+            placeholder={placeholder}
+            value={value}
+            onChange={onChange}
+            onKeyPress={this.submitOnEnter}
+          />
+        </label>
+        {this.inputError(id)}
+      </p>
+    );
+  }
+
   render() {
     const { onSubmitForm, onChangeFirstName, onChangeLastName, onChangeEmail, onChangePassword, onChangeConfirmPassword, firstName, lastName, email, password, confirmPassword, user } = this.props;
 
@@ -100,14 +130,14 @@ export class Users extends React.PureComponent {
 
     // Redirect after user created
     if (user.userCreated) {
-      component = <Redirect to='/' />;
+      component = <Redirect to='/roster' />;
     } else {
       component = (
         <article>
           <div>
             <CenteredSection>
               <H2>
-                Create new user
+                Register
               </H2>
               <p>
                 Use the form below to create a new user to administer players
@@ -118,77 +148,39 @@ export class Users extends React.PureComponent {
                 Create user
               </H2>
               <Form>
-                <p>
-                  <label htmlFor="firstName">
-                    First name &nbsp;
-                    <Input
-                      id="first_name"
-                      type="text"
-                      placeholder="First Name"
-                      value={firstName}
-                      onChange={onChangeFirstName}
-                      onKeyPress={this.submitOnEnter}
-                    />
-                  </label>
-                  {this.inputError('first_name')}
-                </p>
-                <p>
-                  <label htmlFor="lastName">
-                    Last name &nbsp;
-                    <Input
-                      id="last_name"
-                      type="text"
-                      placeholder="Last Name"
-                      value={lastName}
-                      onChange={onChangeLastName}
-                      onKeyPress={this.submitOnEnter}
-                    />
-                  </label>
-                  {this.inputError('last_name')}
-                </p>
-                <p>
-                  <label htmlFor="email">
-                    Email &nbsp;
-                    <Input
-                      id="email"
-                      type="text"
-                      placeholder="Email"
-                      value={email}
-                      onChange={onChangeEmail}
-                      onKeyPress={this.submitOnEnter}
-                    />
-                  </label>
-                  {this.inputError('email')}
-                </p>
-                <p>
-                  <label htmlFor="password">
-                    Password &nbsp;
-                    <Input
-                      id="password"
-                      type="password"
-                      placeholder="Password"
-                      value={password}
-                      onChange={onChangePassword}
-                      onKeyPress={this.submitOnEnter}
-                    />
-                  </label>
-                  {this.inputError('password')}
-                </p>
-                <p>
-                  <label htmlFor="confirm_password">
-                    Confirm password &nbsp;
-                    <Input
-                      id="confirm_password"
-                      type="password"
-                      placeholder="Confirm Password"
-                      value={confirmPassword}
-                      onChange={onChangeConfirmPassword}
-                      onKeyPress={this.submitOnEnter}
-                    />
-                  </label>
-                  {this.inputError('confirm_password')}
-                </p>
-                <Button onClick={onSubmitForm} disabled={this.createDisabled()}>Create User</Button>
+                {this.createInput({
+                  id: 'firstName',
+                  placeholder: 'First Name',
+                  value: firstName,
+                  onChange: onChangeFirstName,
+                })}
+                {this.createInput({
+                  id: 'lastName',
+                  placeholder: 'Last Name',
+                  value: lastName,
+                  onChange: onChangeLastName,
+                })}
+                {this.createInput({
+                  id: 'email',
+                  placeholder: 'Email',
+                  type: 'email',
+                  value: email,
+                  onChange: onChangeEmail,
+                })}
+                {this.createInput({
+                  id: 'password',
+                  type: 'password',
+                  placeholder: 'Password',
+                  value: password,
+                  onChange: onChangePassword,
+                })}
+                {this.createInput({
+                  id: 'confirmPassword',
+                  placeholder: 'Confirm Password',
+                  value: confirmPassword,
+                  onChange: onChangeConfirmPassword,
+                })}
+                <Button id="register" onClick={onSubmitForm} disabled={this.createDisabled()}>Create User</Button>
                 {this.userCreateError()}
               </Form>
             </Section>

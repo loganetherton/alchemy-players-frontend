@@ -10,13 +10,13 @@ class Header extends React.Component {
       <div>
         <h1>Players API Frontend</h1>
         <NavBar>
-          <HeaderLink to="/">
+          <HeaderLink to="/login">
             {isLoggedIn ? 'Logout' : 'Login'}
           </HeaderLink>
-          <HeaderLink to="/users">
-            Users
+          <HeaderLink to="/register">
+            Register
           </HeaderLink>
-          <HeaderLink to="/players">
+          <HeaderLink to="/roster">
             Players
           </HeaderLink>
         </NavBar>

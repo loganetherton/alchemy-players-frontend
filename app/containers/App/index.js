@@ -11,8 +11,10 @@ import { Helmet } from 'react-helmet';
 import styled from 'styled-components';
 import { Switch, Route } from 'react-router-dom';
 
+import Home from 'containers/Home/Loadable';
 import Users from 'containers/Users/Loadable';
-import Players from 'containers/Players/Loadable';
+import Players from 'containers/Roster/Loadable';
+import NewPlayer from 'containers/NewPlayer/Loadable';
 import Login from 'containers/Login/Loadable';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
 import Header from 'components/Header';
@@ -37,9 +39,11 @@ export default function App() {
       </Helmet>
       <Header />
       <Switch>
-        <Route exact path="/" component={Login} />
-        <Route path="/users" component={Users} />
-        <Route path="/players" component={Players} />
+        <Route exact path="/" component={Home} />
+        <Route exact path="/login" component={Login} />
+        <Route exact path="/register" component={Users} />
+        <Route exact path="/roster" component={Players} />
+        <Route exact path="/player/new" component={NewPlayer} />
         <Route path="" component={NotFoundPage} />
       </Switch>
     </AppWrapper>
